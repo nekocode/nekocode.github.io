@@ -1,7 +1,7 @@
 var user_data = {
     "avatar": "https://avatars0.githubusercontent.com/u/4783781?v=4",
     "name": "nekocode",
-    "url": "https://api.github.com/users/nekocode",
+    "url": "https://github.com/nekocode",
 }
 
 var items_data = [
@@ -16,7 +16,7 @@ var items_data = [
         "stars": "1477",
         "forks": "246",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/CameraFilter",
+        "url": "https://github.com/nekocode/CameraFilter",
     },
     {
         "type": "repo",
@@ -25,7 +25,7 @@ var items_data = [
         "stars": "4",
         "forks": "0",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/Hubs",
+        "url": "https://github.com/nekocode/Hubs",
     },
     {
         "type": "repo",
@@ -34,7 +34,7 @@ var items_data = [
         "stars": "1351",
         "forks": "183",
         "lang": "Kotlin",
-        "url": "https://api.github.com/repos/nekocode/Kotlin-Android-Template",
+        "url": "https://github.com/nekocode/Kotlin-Android-Template",
     },
     {
         "type": "repo",
@@ -43,7 +43,7 @@ var items_data = [
         "stars": "751",
         "forks": "90",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/Badge",
+        "url": "https://github.com/nekocode/Badge",
     },
     {
         "type": "repo",
@@ -52,7 +52,7 @@ var items_data = [
         "stars": "578",
         "forks": "61",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/Emojix",
+        "url": "https://github.com/nekocode/Emojix",
     },
     {
         "type": "repo",
@@ -61,7 +61,7 @@ var items_data = [
         "stars": "450",
         "forks": "92",
         "lang": "Kotlin",
-        "url": "https://api.github.com/repos/nekocode/Murmur",
+        "url": "https://github.com/nekocode/Murmur",
     },
     {
         "type": "repo",
@@ -70,7 +70,7 @@ var items_data = [
         "stars": "437",
         "forks": "30",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/DividerDrawable",
+        "url": "https://github.com/nekocode/DividerDrawable",
     },
     {
         "type": "repo",
@@ -79,7 +79,7 @@ var items_data = [
         "stars": "345",
         "forks": "19",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/ResourceInspector",
+        "url": "https://github.com/nekocode/ResourceInspector",
     },
     {
         "type": "repo",
@@ -88,7 +88,7 @@ var items_data = [
         "stars": "313",
         "forks": "27",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/Meepo",
+        "url": "https://github.com/nekocode/Meepo",
     },
     {
         "type": "repo",
@@ -97,7 +97,7 @@ var items_data = [
         "stars": "261",
         "forks": "19",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/TriangulationDrawable",
+        "url": "https://github.com/nekocode/TriangulationDrawable",
     },
     {
         "type": "repo",
@@ -106,7 +106,7 @@ var items_data = [
         "stars": "246",
         "forks": "19",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/MusicVisualization",
+        "url": "https://github.com/nekocode/MusicVisualization",
     },
     {
         "type": "repo",
@@ -115,7 +115,7 @@ var items_data = [
         "stars": "207",
         "forks": "41",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/ToolbarIndicator",
+        "url": "https://github.com/nekocode/ToolbarIndicator",
     },
     {
         "type": "repo",
@@ -124,7 +124,7 @@ var items_data = [
         "stars": "195",
         "forks": "23",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/ItemPool",
+        "url": "https://github.com/nekocode/ItemPool",
     },
     {
         "type": "repo",
@@ -133,7 +133,7 @@ var items_data = [
         "stars": "69",
         "forks": "5",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/RxActivityResult",
+        "url": "https://github.com/nekocode/RxActivityResult",
     },
     {
         "type": "repo",
@@ -142,7 +142,7 @@ var items_data = [
         "stars": "11",
         "forks": "6",
         "lang": "None",
-        "url": "https://api.github.com/repos/nekocode/docker-android",
+        "url": "https://github.com/nekocode/docker-android",
     },
     {
         "type": "repo",
@@ -151,7 +151,7 @@ var items_data = [
         "stars": "10",
         "forks": "1",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/blur-using-textureview",
+        "url": "https://github.com/nekocode/blur-using-textureview",
     },
     {
         "type": "repo",
@@ -160,7 +160,7 @@ var items_data = [
         "stars": "10",
         "forks": "1",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/TachieTransition",
+        "url": "https://github.com/nekocode/TachieTransition",
     },
     {
         "type": "repo",
@@ -169,7 +169,7 @@ var items_data = [
         "stars": "5",
         "forks": "0",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/gradle-import-aar",
+        "url": "https://github.com/nekocode/gradle-import-aar",
     },
     {
         "type": "repo",
@@ -178,7 +178,7 @@ var items_data = [
         "stars": "0",
         "forks": "0",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/websocket-adb-forward",
+        "url": "https://github.com/nekocode/websocket-adb-forward",
     },
     {
         "type": "category",
@@ -191,7 +191,7 @@ var items_data = [
         "stars": "179",
         "forks": "33",
         "lang": "Python",
-        "url": "https://api.github.com/repos/nekocode/tornaREST",
+        "url": "https://github.com/nekocode/tornaREST",
     },
     {
         "type": "repo",
@@ -200,7 +200,7 @@ var items_data = [
         "stars": "26",
         "forks": "14",
         "lang": "JavaScript",
-        "url": "https://api.github.com/repos/nekocode/weixin_vote",
+        "url": "https://github.com/nekocode/weixin_vote",
     },
     {
         "type": "repo",
@@ -209,16 +209,16 @@ var items_data = [
         "stars": "2",
         "forks": "1",
         "lang": "Python",
-        "url": "https://api.github.com/repos/nekocode/wcmovie_test",
+        "url": "https://github.com/nekocode/wcmovie_test",
     },
     {
         "type": "repo",
         "name": "project-gallery",
-        "description": "A showcase of projects I have open sourced.",
+        "description": "A showcase of projects I have open sourced. http://nekocode.cn/project-gallery",
         "stars": "0",
         "forks": "0",
         "lang": "Python",
-        "url": "https://api.github.com/repos/nekocode/project-gallery",
+        "url": "https://github.com/nekocode/project-gallery",
     },
     {
         "type": "repo",
@@ -227,7 +227,7 @@ var items_data = [
         "stars": "46",
         "forks": "14",
         "lang": "Makefile",
-        "url": "https://api.github.com/repos/nekocode/nekocode.cn",
+        "url": "https://github.com/nekocode/nekocode.cn",
     },
     {
         "type": "repo",
@@ -235,8 +235,8 @@ var items_data = [
         "description": "http://nekocode.cn",
         "stars": "2",
         "forks": "0",
-        "lang": "HTML",
-        "url": "https://api.github.com/repos/nekocode/nekocode.github.io",
+        "lang": "JavaScript",
+        "url": "https://github.com/nekocode/nekocode.github.io",
     },
     {
         "type": "category",
@@ -249,7 +249,7 @@ var items_data = [
         "stars": "5",
         "forks": "2",
         "lang": "C#",
-        "url": "https://api.github.com/repos/nekocode/Unity3D-TextureAtlasSlicer-Cocos2d-x",
+        "url": "https://github.com/nekocode/Unity3D-TextureAtlasSlicer-Cocos2d-x",
     },
     {
         "type": "repo",
@@ -258,7 +258,7 @@ var items_data = [
         "stars": "3",
         "forks": "0",
         "lang": "C++",
-        "url": "https://api.github.com/repos/nekocode/FScript0.15",
+        "url": "https://github.com/nekocode/FScript0.15",
     },
     {
         "type": "repo",
@@ -267,7 +267,7 @@ var items_data = [
         "stars": "2",
         "forks": "1",
         "lang": "C",
-        "url": "https://api.github.com/repos/nekocode/FScript0.2",
+        "url": "https://github.com/nekocode/FScript0.2",
     },
     {
         "type": "repo",
@@ -276,7 +276,7 @@ var items_data = [
         "stars": "2",
         "forks": "1",
         "lang": "C++",
-        "url": "https://api.github.com/repos/nekocode/FScriptIDE",
+        "url": "https://github.com/nekocode/FScriptIDE",
     },
     {
         "type": "repo",
@@ -285,7 +285,7 @@ var items_data = [
         "stars": "0",
         "forks": "0",
         "lang": "C++",
-        "url": "https://api.github.com/repos/nekocode/BattleBeats",
+        "url": "https://github.com/nekocode/BattleBeats",
     },
     {
         "type": "category",
@@ -298,7 +298,7 @@ var items_data = [
         "stars": "255",
         "forks": "13",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/android-parcelable-intellij-plugin-kotlin",
+        "url": "https://github.com/nekocode/android-parcelable-intellij-plugin-kotlin",
     },
     {
         "type": "repo",
@@ -307,7 +307,7 @@ var items_data = [
         "stars": "124",
         "forks": "54",
         "lang": "Python",
-        "url": "https://api.github.com/repos/nekocode/zhihuSayHi",
+        "url": "https://github.com/nekocode/zhihuSayHi",
     },
     {
         "type": "repo",
@@ -316,7 +316,7 @@ var items_data = [
         "stars": "122",
         "forks": "38",
         "lang": "Python",
-        "url": "https://api.github.com/repos/nekocode/doubanfm-py",
+        "url": "https://github.com/nekocode/doubanfm-py",
     },
     {
         "type": "repo",
@@ -325,7 +325,7 @@ var items_data = [
         "stars": "58",
         "forks": "33",
         "lang": "Python",
-        "url": "https://api.github.com/repos/nekocode/wx_sniffer",
+        "url": "https://github.com/nekocode/wx_sniffer",
     },
     {
         "type": "repo",
@@ -334,7 +334,7 @@ var items_data = [
         "stars": "49",
         "forks": "4",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/MethodTracerCli",
+        "url": "https://github.com/nekocode/MethodTracerCli",
     },
     {
         "type": "repo",
@@ -343,7 +343,7 @@ var items_data = [
         "stars": "16",
         "forks": "2",
         "lang": "PowerShell",
-        "url": "https://api.github.com/repos/nekocode/win_penetration",
+        "url": "https://github.com/nekocode/win_penetration",
     },
     {
         "type": "repo",
@@ -352,7 +352,7 @@ var items_data = [
         "stars": "9",
         "forks": "4",
         "lang": "Java",
-        "url": "https://api.github.com/repos/nekocode/leetcode-solutions",
+        "url": "https://github.com/nekocode/leetcode-solutions",
     },
     {
         "type": "repo",
@@ -361,7 +361,7 @@ var items_data = [
         "stars": "7",
         "forks": "1",
         "lang": "Python",
-        "url": "https://api.github.com/repos/nekocode/finding_self_starred",
+        "url": "https://github.com/nekocode/finding_self_starred",
     },
     {
         "type": "repo",
@@ -370,7 +370,7 @@ var items_data = [
         "stars": "4",
         "forks": "5",
         "lang": "Python",
-        "url": "https://api.github.com/repos/nekocode/nbackdoor",
+        "url": "https://github.com/nekocode/nbackdoor",
     },
     {
         "type": "repo",
@@ -379,7 +379,7 @@ var items_data = [
         "stars": "3",
         "forks": "0",
         "lang": "C++",
-        "url": "https://api.github.com/repos/nekocode/Taskkiller",
+        "url": "https://github.com/nekocode/Taskkiller",
     },
     {
         "type": "repo",
@@ -388,7 +388,7 @@ var items_data = [
         "stars": "1",
         "forks": "2",
         "lang": "Python",
-        "url": "https://api.github.com/repos/nekocode/adb_connect_memu",
+        "url": "https://github.com/nekocode/adb_connect_memu",
     },
     {
         "type": "repo",
@@ -397,7 +397,7 @@ var items_data = [
         "stars": "1",
         "forks": "0",
         "lang": "C++",
-        "url": "https://api.github.com/repos/nekocode/cxi",
+        "url": "https://github.com/nekocode/cxi",
     },
     {
         "type": "repo",
@@ -406,7 +406,7 @@ var items_data = [
         "stars": "0",
         "forks": "0",
         "lang": "TeX",
-        "url": "https://api.github.com/repos/nekocode/resume",
+        "url": "https://github.com/nekocode/resume",
     },
     {
         "type": "repo",
@@ -415,7 +415,7 @@ var items_data = [
         "stars": "0",
         "forks": "0",
         "lang": "VimL",
-        "url": "https://api.github.com/repos/nekocode/vimrc",
+        "url": "https://github.com/nekocode/vimrc",
     },
 
 ]
