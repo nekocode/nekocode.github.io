@@ -4,25 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="sqmarket-font.css">
     <link rel="stylesheet" href="index.css">
     <title>Gallery</title>
 </head>
 
 <body>
-    <div class="pagehead">
-        <div class="container">
-            <h1>
-                <img class="avatar" id="avatar" height="32" src="" width="32">
-                <a id="user-name" href=""></a>
-            </h1>
-        </div>
+    <div class="container pagehead">
+        <h1 id="title"></h1>
+        <a id="github" href="" target="_blank"></a>
+    </div>
+
+    <div class="container profile">
+        <p id="description"></p>
+        <ul id="category-menu">
+        </ul>
     </div>
 
     <!-- Content -->
     <div class="container" id="content">
     </div>
+
+    <footer>
+        <p id="footer"></p>
+    </footer>
 </body>
-<script src="data/data.js"></script>
+<script src="data/ui_data.js"></script>
+<script src="data/list_data.js"></script>
 <script src="index.js"></script>
 
 </html>
