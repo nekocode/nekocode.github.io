@@ -11,35 +11,26 @@
             "type": "category"
         },
         {
-            "description": "Hubs is a content crawler application on Android. It provides apis to crawl web content and display data.",
-            "forks": 0,
-            "lang": "Java",
-            "name": "Hubs",
-            "stars": 9,
+            "description": "Create android kotlin app from template. ",
+            "forks": 195,
+            "lang": "Kotlin",
+            "name": "create-android-kotlin-app",
+            "stars": 1451,
             "type": "repo",
-            "url": "https://github.com/Hubs-App/Hubs"
+            "url": "https://github.com/nekocode/create-android-kotlin-app"
         },
         {
             "description": "A debug tool to inspect used layout files of current Activity.",
             "forks": 19,
             "lang": "Java",
             "name": "ResourceInspector",
-            "stars": 349,
+            "stars": 348,
             "type": "repo",
             "url": "https://github.com/nekocode/ResourceInspector"
         },
         {
-            "description": "A plugin to inject tracing code to methods.",
-            "forks": 0,
-            "lang": "Java",
-            "name": "ASM-Systrace",
-            "stars": 11,
-            "type": "repo",
-            "url": "https://github.com/nekocode/ASM-Systrace"
-        },
-        {
             "description": "Auto generate adapters for android list views.",
-            "forks": 26,
+            "forks": 27,
             "lang": "Java",
             "name": "Items",
             "stars": 235,
@@ -48,28 +39,28 @@
         },
         {
             "description": "A router generator for Android, similar to retrofit.",
-            "forks": 27,
+            "forks": 28,
             "lang": "Java",
             "name": "Meepo",
-            "stars": 314,
+            "stars": 318,
             "type": "repo",
             "url": "https://github.com/nekocode/Meepo"
         },
         {
             "description": ":octocat: Badge drawable for android.",
-            "forks": 94,
+            "forks": 99,
             "lang": "Java",
             "name": "Badge",
-            "stars": 790,
+            "stars": 804,
             "type": "repo",
             "url": "https://github.com/nekocode/Badge"
         },
         {
             "description": "Before building the jars into android dex archives, filter files inside them.",
-            "forks": 4,
+            "forks": 6,
             "lang": "Java",
             "name": "JarFilterPlugin",
-            "stars": 72,
+            "stars": 89,
             "type": "repo",
             "url": "https://github.com/nekocode/JarFilterPlugin"
         },
@@ -84,28 +75,19 @@
         },
         {
             "description": "\ud83d\udcf7 Realtime camera filters on android.",
-            "forks": 271,
+            "forks": 279,
             "lang": "Java",
             "name": "CameraFilter",
-            "stars": 1594,
+            "stars": 1622,
             "type": "repo",
             "url": "https://github.com/nekocode/CameraFilter"
         },
         {
-            "description": "\ud83d\ude80 An Android project template using Kotlin/MVP/ReactiveX. It provides a generator to fast create a Kotlin Android template project.",
-            "forks": 194,
-            "lang": "Python",
-            "name": "Kotlin-Android-Template",
-            "stars": 1435,
-            "type": "repo",
-            "url": "https://github.com/nekocode/Kotlin-Android-Template"
-        },
-        {
             "description": "One line of code to implement emoji to your whole android application.",
-            "forks": 61,
+            "forks": 62,
             "lang": "Java",
             "name": "Emojix",
-            "stars": 577,
+            "stars": 575,
             "type": "repo",
             "url": "https://github.com/nekocode/Emojix"
         },
@@ -114,34 +96,34 @@
             "forks": 90,
             "lang": "Kotlin",
             "name": "Murmur",
-            "stars": 455,
+            "stars": 456,
             "type": "repo",
             "url": "https://github.com/nekocode/Murmur"
         },
         {
             "description": "Help to layout and draw dividers on existing views.",
-            "forks": 31,
+            "forks": 30,
             "lang": "Java",
             "name": "DividerDrawable",
-            "stars": 453,
+            "stars": 458,
             "type": "repo",
             "url": "https://github.com/nekocode/DividerDrawable"
         },
         {
             "description": "Bind observables to the lifecycle of Activity or Fragment in a non-invasive way.",
-            "forks": 37,
+            "forks": 40,
             "lang": "Java",
             "name": "RxLifecycle",
-            "stars": 417,
+            "stars": 430,
             "type": "repo",
             "url": "https://github.com/zhihu/RxLifecycle"
         },
         {
             "description": "Some music visualization demos on Android.",
-            "forks": 27,
+            "forks": 29,
             "lang": "Java",
             "name": "MusicVisualization",
-            "stars": 355,
+            "stars": 360,
             "type": "repo",
             "url": "https://github.com/nekocode/MusicVisualization"
         },
@@ -153,6 +135,33 @@
             "stars": 260,
             "type": "repo",
             "url": "https://github.com/nekocode/TriangulationDrawable"
+        },
+        {
+            "description": "A plugin to inject tracing code to methods.",
+            "forks": 1,
+            "lang": "Java",
+            "name": "ASM-Systrace",
+            "stars": 27,
+            "type": "repo",
+            "url": "https://github.com/nekocode/ASM-Systrace"
+        },
+        {
+            "description": "Hubs is a content crawler application on Android. It provides apis to crawl web content and display data.",
+            "forks": 0,
+            "lang": "Java",
+            "name": "Hubs",
+            "stars": 9,
+            "type": "repo",
+            "url": "https://github.com/Hubs-App/Hubs"
+        },
+        {
+            "description": "It can help you to dynamically access and debug Xposed Api by using Lua script without reboot your device.",
+            "forks": 0,
+            "lang": "Kotlin",
+            "name": "Lua-Xposed",
+            "stars": 2,
+            "type": "repo",
+            "url": "https://github.com/Lua-Xposed/Lua-Xposed"
         },
         {
             "description": "It demonstrates a simple way to call android sdk hidden apis directly.",
@@ -168,7 +177,7 @@
             "forks": 42,
             "lang": "Java",
             "name": "ToolbarIndicator",
-            "stars": 216,
+            "stars": 219,
             "type": "repo",
             "url": "https://github.com/nekocode/ToolbarIndicator"
         },
@@ -177,7 +186,7 @@
             "forks": 5,
             "lang": "Java",
             "name": "RxActivityResult",
-            "stars": 71,
+            "stars": 72,
             "type": "repo",
             "url": "https://github.com/nekocode/RxActivityResult"
         },
@@ -204,7 +213,7 @@
             "forks": 1,
             "lang": "Java",
             "name": "Websocket-Adb-Forward",
-            "stars": 5,
+            "stars": 6,
             "type": "repo",
             "url": "https://github.com/nekocode/Websocket-Adb-Forward"
         },
@@ -226,7 +235,7 @@
             "forks": 14,
             "lang": "Java",
             "name": "android-parcelable-intellij-plugin-kotlin",
-            "stars": 267,
+            "stars": 270,
             "type": "repo",
             "url": "https://github.com/nekocode/android-parcelable-intellij-plugin-kotlin"
         },
@@ -244,7 +253,7 @@
             "forks": 0,
             "lang": "Groovy",
             "name": "Gradle-Import-Aar",
-            "stars": 11,
+            "stars": 14,
             "type": "repo",
             "url": "https://github.com/nekocode/Gradle-Import-Aar"
         },
@@ -254,10 +263,10 @@
         },
         {
             "description": "A simple RESTful Web Service build with Tornado.",
-            "forks": 36,
+            "forks": 38,
             "lang": "Python",
             "name": "tornaREST",
-            "stars": 190,
+            "stars": 192,
             "type": "repo",
             "url": "https://github.com/nekocode/tornaREST"
         },
@@ -266,7 +275,7 @@
             "forks": 1,
             "lang": "JavaScript",
             "name": "project-gallery",
-            "stars": 19,
+            "stars": 18,
             "type": "repo",
             "url": "https://github.com/nekocode/project-gallery"
         },
@@ -312,10 +321,10 @@
         },
         {
             "description": "Simple and fast tool to import Cocos2d-x spritesheets (TextureAtlas) into Unity3D.",
-            "forks": 2,
+            "forks": 3,
             "lang": "C#",
             "name": "Unity3D-TextureAtlasSlicer-Cocos2d-x",
-            "stars": 5,
+            "stars": 6,
             "type": "repo",
             "url": "https://github.com/nekocode/Unity3D-TextureAtlasSlicer-Cocos2d-x"
         },
@@ -355,16 +364,16 @@
             "forks": 56,
             "lang": "Python",
             "name": "zhihuSayHi",
-            "stars": 124,
+            "stars": 123,
             "type": "repo",
             "url": "https://github.com/nekocode/zhihuSayHi"
         },
         {
             "description": "\ud83d\udcfb \u8c46\u74e3 FM \u7b2c\u4e09\u65b9\u7ea2\u5fc3\u9891\u9053\u64ad\u653e\u5668",
-            "forks": 41,
+            "forks": 40,
             "lang": "Python",
             "name": "doubanfm-py",
-            "stars": 127,
+            "stars": 128,
             "type": "repo",
             "url": "https://github.com/nekocode/doubanfm-py"
         },
@@ -379,7 +388,7 @@
         },
         {
             "description": "Penetration testing on windows(7 or 8) ",
-            "forks": 3,
+            "forks": 4,
             "lang": "PowerShell",
             "name": "win_penetration",
             "stars": 16,
@@ -415,7 +424,7 @@
         },
         {
             "description": "A simple backdoor script on windows.",
-            "forks": 5,
+            "forks": 6,
             "lang": "Python",
             "name": "nbackdoor",
             "stars": 4,
