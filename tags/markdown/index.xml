@@ -17,12 +17,13 @@
       <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>http://nekocode.github.io/blog/docker_serverless_graphql/</guid>
-      <description>最近被 Backend、DevOps 的一些新技术 / 概念完全震撼到了。
-Docker 早在前几年，我就开始使用 Docker 了。通过 Docker 为公司搭建 Maven 和 Jenkins 服务，然后构建用于编译 Android 项目的 Docker Image 给 Jenkins 用。
-对于曾经尝试过 Deployment 地狱的人，Docker 的便捷让我当初对它的印象十分好。
-而今年，借助 Docker Compose，我更是很轻松地在我的服务器上成功尝试搭建了一系列工具。仅仅是写写 YAML 配置，就可以轻松部署到任意服务器上，这得有多爽。甚至还包括以下一些自动化的事情：
- 通过 jwilder/nginx-proxy 自动为其它 Docker 服务配置 Nginx 代理； 通过 jrcs/letsencrypt-nginx-proxy-companion 自动创建 Let&amp;rsquo;s Encrypt 证书并配置，轻松支持 Https。  如果是在远古时代，对一个非专业 DevOps 工程师而言，即使不考虑系统和软件之间的兼容问题，要手动完成上述的所有部署操作也是十分麻烦的。要是遇到要把所有服务迁移或复制到其他机器上这种事情，估计得抓狂。
-一起来看看我的 Docker Compose YAML：
+      <description>最近被 Backend、DevOps 的一些新概念震撼到了。
+Docker Docker 应该是目前 DevOps 界最火的工具了。
+早在前几年，我就开始使用 Docker 了。通过 Docker 为公司搭建 Maven 和 Jenkins 服务，然后构建用于编译 Android 项目的 Docker Image 提供给 Jenkins 使用。
+对于曾经尝试过 Deployment 地狱的人，Docker 的便捷让我对它的印象十分好。
+而今年，借助 Docker Compose，我更在我的服务器上成功用几句命令就搭建了一系列工具。仅仅是写写 YAML 配置，就可以快速轻松地部署到任意服务器上，这得有多爽。甚至还包括以下一些自动化的事情：
+ 通过 jwilder/nginx-proxy 自动为其它 Docker 容器配置 Nginx 代理； 通过 jrcs/letsencrypt-nginx-proxy-companion 自动创建 Let&amp;rsquo;s Encrypt 证书并配置，轻松支持 Https。  如果是在远古时代，对一个非专业 DevOps 工程师而言，即使不考虑系统和软件之间的兼容问题，要手动完成上述的所有部署操作也是十分麻烦的。要是遇到要把所有服务迁移或复制到其他机器上这种事情，估计得抓狂。
+来看看我的 Docker Compose YAML 吧：
 Nginx-Proxy: image: daocloud.io/daocloud/nginx-proxy:latest privileged: false restart: always ports: - 80:80 - 443:443 volumes: - /root/nginx-proxy/certs:/etc/nginx/certs:ro - /root/nginx-proxy/vhost:/etc/nginx/vhost.</description>
     </item>
     
