@@ -17,7 +17,8 @@
       <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>http://nekocode.github.io/blog/graphql_summary/</guid>
-      <description>Schema &amp;amp; GraphQL 语句 GraphQL 是一门查询语言，用来写查询数据的语句。而 Schema 则是用于声明 GraphQL 语句能够查询什么样的数据。 举个例子，下面的是 Schema：
+      <description>Schema &amp;amp; GraphQL 语句 GraphQL 是一门查询语言，使用它可以描述你需要哪些数据。而 Schema 则是用于声明你能够查询什么样的数据。
+举个例子，下面的是 Schema：
 type Query { hello: String }  通过以上 Schema 的声明，你可以写下这么一条 GraphQL 查询语句：
 query { hello }  Schema Schema 里主要有两个核心的概念，类型（Type）和字段（Field）。举个例子：
 type User { name: String }  上面定义了一个名为 User 的类型，并且这个类型里包含了一个叫做 name 的字段。 注意，字段必须声明类型，可以声明为 Int、String 这类基础类型，也可以声明为自定义的类型。另外，字段是可以包含参数的，这让它看起来有点像函数：

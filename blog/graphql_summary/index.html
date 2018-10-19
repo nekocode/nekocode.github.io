@@ -71,8 +71,9 @@
 
 <h2 id="schema-graphql-语句">Schema &amp; GraphQL 语句</h2>
 
-<p>GraphQL 是一门查询语言，用来写查询数据的语句。而 Schema 则是用于声明 GraphQL 语句能够查询什么样的数据。
-举个例子，下面的是 Schema：</p>
+<p>GraphQL 是一门查询语言，使用它可以描述你需要哪些数据。而 Schema 则是用于声明你能够查询什么样的数据。</p>
+
+<p>举个例子，下面的是 Schema：</p>
 
 <pre><code>type Query {
   hello: String
@@ -121,7 +122,7 @@ type Mutation {
 }
 </code></pre>
 
-<p>我们假设，任何 GraphQL 语句都其实是在对某个叫做 Document 的对象进行查询，而 Document 里面有且只有以下两个字段：</p>
+<p>我们假设，任何 GraphQL 语句都其实是在查询 Document 对象的子字段，而 Document 里面有且只有以下两个直接子字段：</p>
 
 <pre><code>type Document {
   query: Query
@@ -129,7 +130,7 @@ type Mutation {
 }
 </code></pre>
 
-<p>任何其他字段只能放在 Query 和 Mutation 类型里面了。例如我们想添加一个用来查询用户信息的字段，那我们可以在 Query 类型里添加一个 me 字段：</p>
+<p>想要在 GraphQL 语句中查询其它字段，只能把要查询的字段放到 Query 和 Mutation 类型里面。例如我们想添加一个用来查询用户信息的字段，那我们可以在 Query 类型里添加一个 me 字段：</p>
 
 <pre><code>type Query {
   me: User
@@ -153,9 +154,11 @@ type User {
 
 <h2 id="query-mutation-的字段约定">Query &amp; Mutation 的字段约定</h2>
 
-<p>虽然你可以在 Query 和 Mutation 类型里添加任意字段，但是根据语义，应当把不对数据造成修改的字段放在 Query 类型里，而把对数据造成修改的字段放在 Mutation 里。
-可以这么理解，查询 Mutation 里的字段实际也是一次「查询」，但是这次查询会对数据造成修改。
-以下是一个简单的例子：</p>
+<p>虽然你可以在 Query 和 Mutation 类型里添加任意字段，但是根据语义，应当把不对数据造成修改的字段放在 Query 类型里，而把对数据造成修改的字段放在 Mutation 里。</p>
+
+<p>可以这么理解，查询 Mutation 里的字段实际也是一次「查询」，但是这次查询会对数据造成修改。</p>
+
+<p>以下是一个简单的例子：</p>
 
 <pre><code>type Query {
   me: User
@@ -168,8 +171,9 @@ type Mutation {
 
 <h2 id="resolver">Resolver</h2>
 
-<p>Resolver 实际上是一个函数。当我们执行某条 GraphQL 语句时（当然，通常是在 Server 上），会通过执行对应的 Resolver 函数来获取查询的字段的。
-拿第一节的例子，Schema 为：</p>
+<p>Resolver 实际上是一个函数。当我们执行某条 GraphQL 语句时（当然，通常是在 Server 上），会通过执行对应的 Resolver 函数来获取查询的字段的。</p>
+
+<p>拿第一节的例子，Schema 为：</p>
 
 <pre><code>type Query {
   hello: String
@@ -187,8 +191,9 @@ type Mutation {
 };
 </code></pre>
 
-<p>这里用了一个双层的 Map(/Object) 来装载 Resolver，实际上第一层用来索引类型，第二层用来索引类型中的字段。
-而上面键 resolve 对应的函数就是  hello 这个字段的 Resolver 函数。它依据 Schema 的声明需要返回了一个字符串。</p>
+<p>这里用了一个双层的 Map(/Object) 来装载 Resolver，实际上第一层用来索引类型，第二层用来索引类型中的字段。</p>
+
+<p>而上面键 resolve 对应的函数就是  hello 这个字段的 Resolver 函数。它依据 Schema 的声明需要返回了一个字符串。</p>
 
 <p>我们再来看下如果查询的字段是复杂类型的情况。假设 Schema 为：</p>
 
@@ -217,8 +222,9 @@ type User {
 }
 </code></pre>
 
-<p>那我们怎样为这样的语句进行 Resolve 呢？
-注意前面说到 Resolver 表。我们可以在表里添加 User 类型，然后为 friend 字段单独添加一个 Resolver：</p>
+<p>那我们怎样为这样的语句进行 Resolve 呢？</p>
+
+<p>注意前面说到 Resolver 表。我们可以在表里添加 User 类型，然后为 friend 字段单独添加一个 Resolver：</p>
 
 <pre><code>export const resolverMap: IResolvers = {
   Query: {
@@ -247,9 +253,9 @@ Mark's friend's friend
 <p>执行整个 GraphQL 语句的逻辑就是：</p>
 
 <ul>
-<li>访问到 Query 类型里的 me 字段，使用 <code>resolverMap[&quot;Query&quot;][&quot;me&quot;]</code> 来获得 User 类型里的字段值。</li>
+<li>访问到 Query 类型里的 me 字段，使用 <code>resolverMap[&quot;Query&quot;][&quot;me&quot;]</code> 来获得 User 里的字段的值。</li>
 <li>该次 Resolve 只返回了 name 字段的值，但是 GraphQL 语句中还查询了 friend 字段。</li>
-<li>friend 是 User 类型里的字段，所以继续使用 <code>resolverMap[&quot;User&quot;][&quot;friend&quot;]</code> 来获得 friend 字段的返回值。</li>
+<li>friend 是 User 类型里的字段，所以继续使用 <code>resolverMap[&quot;User&quot;][&quot;friend&quot;]</code> 来获取 friend 字段的返回值。</li>
 <li>&hellip;</li>
 </ul>
 
