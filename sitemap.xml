@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://nekocode.github.io/blog/graphql_summary/</loc>
+    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://nekocode.github.io/blog/docker_serverless_graphql/</loc>
     <lastmod>2018-09-10T00:00:00+00:00</lastmod>
   </url>
@@ -14,36 +19,36 @@
   
   <url>
     <loc>http://nekocode.github.io/categories/blog/</loc>
-    <lastmod>2018-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://nekocode.github.io/blog/</loc>
-    <lastmod>2018-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://nekocode.github.io/categories/</loc>
-    <lastmod>2018-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://nekocode.github.io/</loc>
-    <lastmod>2018-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://nekocode.github.io/tags/markdown/</loc>
-    <lastmod>2018-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://nekocode.github.io/tags/</loc>
-    <lastmod>2018-09-10T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
