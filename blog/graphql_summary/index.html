@@ -191,9 +191,9 @@ type Mutation {
 };
 </code></pre>
 
-<p>这里用了一个双层的 Map(/Object) 来装载 Resolver，实际上第一层用来索引类型，第二层用来索引类型中的字段。</p>
+<p>这里用了一个双层的 Map(/Object) 来装载所有 Resolver，实际上第一层用来索引类型，第二层用来索引类型中的字段。</p>
 
-<p>而上面键 resolve 对应的函数就是  hello 这个字段的 Resolver 函数。它依据 Schema 的声明需要返回了一个字符串。</p>
+<p>而上面键 resolve 对应的函数就是 hello 这个字段的 Resolver 函数。依据 Schema 的声明它需要返回了一个字符串。</p>
 
 <p>我们再来看下如果查询的字段是复杂类型的情况。假设 Schema 为：</p>
 

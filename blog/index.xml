@@ -6,10 +6,22 @@
     <description>Recent content in Blogs on 杨凡</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 19 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 20 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://nekocode.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>GraphQL 纪要（二）</title>
+      <link>http://nekocode.github.io/blog/graphql_summary_2/</link>
+      <pubDate>Sat, 20 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://nekocode.github.io/blog/graphql_summary_2/</guid>
+      <description>Resolver 设计 我们可能会在 Resolver 里做一些耗时的操作（例如操作 Database）。为了保证我们尽可能快地响应用户的查询，我们必须保证只对那些用户需要的字段进行查询。
+首先举个反例，我们定义了以下的 Schema：
+type Query { getPost: Post } type Post { title: String authorName: String }  对应的 Resolver Map：
+export const resolverMap: IResolvers = { Query: { getPost: { resolve: () =&amp;gt; { const post = queryPostDbTable(); const author = queryUserDbTable(post.authorId); return { title: post.title, authorName: author.name;, }; }, }, }, };  可以看到，在 getPost 字段的 Resolver 里会查询 Post 和 User 表。糟糕的是，即便用户并没有查询 authorName 字段，在获取 getPost 字段的时候也会查询 User 表。这造成了冗余的数据库操作。</description>
+    </item>
     
     <item>
       <title>GraphQL 纪要</title>
