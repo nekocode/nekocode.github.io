@@ -8,75 +8,533 @@
     <language>zh-CN</language>
     <lastBuildDate>Sat, 20 Oct 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://nekocode.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="http://nekocode.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>GraphQL 纪要（二）</title>
-      <link>http://nekocode.github.io/blog/graphql_summary_2/</link>
+      <link>http://nekocode.github.io/posts/graphql_summary_2/</link>
       <pubDate>Sat, 20 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://nekocode.github.io/blog/graphql_summary_2/</guid>
-      <description>Resolver 设计 我们可能会在 Resolver 里做一些耗时的操作（例如操作 Database）。为了保证我们尽可能快地响应用户的查询，我们必须保证只对那些用户需要的字段进行查询。
-首先举个反例，我们定义了以下的 Schema：
-type Query { getPost: Post } type Post { title: String authorName: String }  对应的 Resolver Map：
-export const resolverMap: IResolvers = { Query: { getPost: { resolve: () =&amp;gt; { const post = queryPostDbTable(); const author = queryUserDbTable(post.authorId); return { title: post.title, authorName: author.name;, }; }, }, }, };  可以看到，在 getPost 字段的 Resolver 里会查询 Post 和 User 表。糟糕的是，即便用户并没有查询 authorName 字段，在获取 getPost 字段的时候也会查询 User 表。这造成了冗余的数据库操作。</description>
+      <guid>http://nekocode.github.io/posts/graphql_summary_2/</guid>
+      <description>
+
+&lt;h2 id=&#34;resolver-设计&#34;&gt;Resolver 设计&lt;/h2&gt;
+
+&lt;p&gt;我们可能会在 Resolver 里做一些耗时的操作（例如操作 Database）。为了保证我们尽可能快地响应用户的查询，我们必须保证只对那些用户需要的字段进行查询。&lt;/p&gt;
+
+&lt;p&gt;首先举个反例，我们定义了以下的 Schema：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type Query {
+  getPost: Post
+}
+
+type Post {
+  title: String
+  authorName: String
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;对应的 Resolver Map：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export const resolverMap: IResolvers = {
+  Query: {
+    getPost: {
+      resolve: () =&amp;gt; {
+        const post = queryPostDbTable();
+        const author = queryUserDbTable(post.authorId);
+        return {
+          title: post.title,
+          authorName: author.name;,
+        };
+      },
+    },
+  },
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到，在 getPost 字段的 Resolver 里会查询 Post 和 User 表。糟糕的是，即便用户并没有查询 authorName 字段，在获取 getPost 字段的时候也会查询 User 表。这造成了冗余的数据库操作。&lt;/p&gt;
+
+&lt;p&gt;为了解决这个问题，我们应当把 authorName 字段的获取放到另一个 Resolver 里。例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export const resolverMap: IResolvers = {
+  Query: {
+    getPost: {
+      resolve: () =&amp;gt; {
+        return queryPostDbTable();
+      },
+    },
+  },
+  Post: {
+    authorName: {
+      resolve: (post) =&amp;gt; {
+        return queryUserDbTable(post.authorId).name;
+      },
+    },
+  },
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样可以只在用户查询到 authorName 字段时才去查询 User 表。&lt;/p&gt;
+
+&lt;p&gt;现在再假设一下，如果 Post 里还要返回用户头像路径的话，例如 Schema 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type Post {
+  title: String
+  authorName: String
+  authorAvatar: String
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这种情况，Resolver 又不好设计了。&lt;/p&gt;
+
+&lt;p&gt;实际上，查询一次 User 表就可以同时获得 authorName 和 authorAvatar 字段了。但如果按照上面的设计，把这两个字段放在单独的 Resolver 里的话，那么如果用户同时查询这两个字段，会查询两次 User 表。&lt;/p&gt;
+
+&lt;p&gt;所以说这种扁平的 Schema 设计其实是不好，更好的设计应该是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type Post {
+  title: String
+  author: User
+}
+
+type User {
+  name: String
+  avatar: String
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;对应 Resolver Map：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export const resolverMap: IResolvers = {
+  Query: {
+    getPost: {
+      resolve: () =&amp;gt; {
+        return queryPostDbTable();
+      },
+    },
+  },
+  Post: {
+    author: {
+      resolve: (post) =&amp;gt; {
+        return queryUserDbTable(post.authorId);
+      },
+    },
+  },
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;graphql-orver-prisma&#34;&gt;GraphQL Orver Prisma&lt;/h2&gt;
+
+&lt;p&gt;Prisma 是基于 GraphQL 的最流行的 ORM 框架之一。我们可以使用 Prisma 提供的类似 GraphQL Schema 的语法来定义我们的所有 Model，然后 Prisma 会帮我们在数据库中建立对应的表和列，并生成一个包含增删查改这些 Model 功能的 GraphQL 服务。&lt;/p&gt;
+
+&lt;p&gt;简单来说，通过 Prisma，我们可以使用 GraphQL 语句来操作数据库。&lt;/p&gt;
+
+&lt;p&gt;而使用 Prisma 的好处是，我们可以 Prisma 上再搭建一层 GraphQL 服务来处理更高层的业务逻辑，这样很多操作 Model 的 GraphQL 请求可以直接转发给 Prisma 处理。在定义 Schema 时，很多 Type 甚至可以复用 Prisma 生成的。&lt;/p&gt;
+
+&lt;p&gt;有兴趣的可以看下我写的 &lt;a href=&#34;https://github.com/nekocode/typescript-graphql-over-prisma&#34;&gt;DEMO&lt;/a&gt;。它能帮助你快速搭建一个后端服务。&lt;/p&gt;
+
+&lt;h2 id=&#34;其它&#34;&gt;其它&lt;/h2&gt;
+
+&lt;p&gt;实际上，无论在功能还是性能上，GraphQL 都是特别薄的一层，它所做的仅仅是把 GraphQL 语句解析成 AST，然后执行对应的 Resolver 而已。你甚至可以把它作为 Api Gateway，用它来包裹其它微服务的接口。&lt;/p&gt;
+
+&lt;p&gt;而对比过往 Rest 的接口设计，GraphQL 作为一门「语言」描述明显能力更强。你可以在一条 GraphQL 语句里按需查询你所有需要的数据，仅需要一次网络请求，而如果你的 Resolver 设计的足够好的话，不会像 Rest 接口那样可能造成冗余的查询。&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>GraphQL 纪要</title>
-      <link>http://nekocode.github.io/blog/graphql_summary/</link>
+      <link>http://nekocode.github.io/posts/graphql_summary/</link>
       <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://nekocode.github.io/blog/graphql_summary/</guid>
-      <description>Schema &amp;amp; GraphQL 语句 GraphQL 是一门查询语言，使用它可以描述你需要哪些数据。而 Schema 则是用于声明你能够查询什么样的数据。
-举个例子，下面的是 Schema：
-type Query { hello: String }  通过以上 Schema 的声明，你可以写下这么一条 GraphQL 查询语句：
-query { hello }  Schema Schema 里主要有两个核心的概念，类型（Type）和字段（Field）。举个例子：
-type User { name: String }  上面定义了一个名为 User 的类型，并且这个类型里包含了一个叫做 name 的字段。 注意，字段必须声明类型，可以声明为 Int、String 这类基础类型，也可以声明为自定义的类型。另外，字段是可以包含参数的，这让它看起来有点像函数：
-type User { name: String posts(count: Int): [Post] } type Post { title: String }  例如这里 User 类型里的 posts 字段，它接受一个名为 count 的参数并返回一个 Post 类型的列表。</description>
+      <guid>http://nekocode.github.io/posts/graphql_summary/</guid>
+      <description>
+
+&lt;h2 id=&#34;schema-graphql-语句&#34;&gt;Schema &amp;amp; GraphQL 语句&lt;/h2&gt;
+
+&lt;p&gt;GraphQL 是一门查询语言，使用它可以描述你需要哪些数据。而 Schema 则是用于声明你能够查询什么样的数据。&lt;/p&gt;
+
+&lt;p&gt;举个例子，下面的是 Schema：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type Query {
+  hello: String
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通过以上 Schema 的声明，你可以写下这么一条 GraphQL 查询语句：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;query {
+  hello
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;schema&#34;&gt;Schema&lt;/h2&gt;
+
+&lt;p&gt;Schema 里主要有两个核心的概念，类型（Type）和字段（Field）。举个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type User {
+  name: String
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面定义了一个名为 User 的类型，并且这个类型里包含了一个叫做 name 的字段。
+注意，字段必须声明类型，可以声明为 Int、String 这类基础类型，也可以声明为自定义的类型。另外，字段是可以包含参数的，这让它看起来有点像函数：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type User {
+  name: String
+  posts(count: Int): [Post]
+}
+
+type Post {
+  title: String
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;例如这里 User 类型里的 posts 字段，它接受一个名为 count 的参数并返回一个 Post 类型的列表。&lt;/p&gt;
+
+&lt;h2 id=&#34;schema-里的-query-和-mutation-类型&#34;&gt;Schema 里的 Query 和 Mutation 类型&lt;/h2&gt;
+
+&lt;p&gt;在 Schema 里面有两个约定的类型：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type Query {
+}
+
+type Mutation {
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们假设，任何 GraphQL 语句都其实是在查询 Document 对象的子字段，而 Document 里面有且只有以下两个直接子字段：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type Document {
+  query: Query
+  mutation: Mutation
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;想要在 GraphQL 语句中查询其它字段，只能把要查询的字段放到 Query 和 Mutation 类型里面。例如我们想添加一个用来查询用户信息的字段，那我们可以在 Query 类型里添加一个 me 字段：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type Query {
+  me: User
+}
+
+type User {
+  name: String
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那么用户就可以用下面的 GraphQL 语句来查询自己的名称了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;query {
+  me {
+    name
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;需要注意的是，这里的 query 是字段名，返回的是一个 Query 类型。me 是 Query 类型里的字段，而 name 是 User 类型里的字段。&lt;/p&gt;
+
+&lt;h2 id=&#34;query-mutation-的字段约定&#34;&gt;Query &amp;amp; Mutation 的字段约定&lt;/h2&gt;
+
+&lt;p&gt;虽然你可以在 Query 和 Mutation 类型里添加任意字段，但是根据语义，应当把不对数据造成修改的字段放在 Query 类型里，而把对数据造成修改的字段放在 Mutation 里。&lt;/p&gt;
+
+&lt;p&gt;可以这么理解，查询 Mutation 里的字段实际也是一次「查询」，但是这次查询会对数据造成修改。&lt;/p&gt;
+
+&lt;p&gt;以下是一个简单的例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type Query {
+  me: User
+}
+
+type Mutation {
+  changeMyName(name: String): User
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;resolver&#34;&gt;Resolver&lt;/h2&gt;
+
+&lt;p&gt;Resolver 实际上是一个函数。当我们执行某条 GraphQL 语句时（当然，通常是在 Server 上），会通过执行对应的 Resolver 函数来获取查询的字段的。&lt;/p&gt;
+
+&lt;p&gt;拿第一节的例子，Schema 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type Query {
+  hello: String
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们接下来实现一个用来「查询 Query 类型里字段 hello」的 Resolver。例如我们让这个字段返回 &amp;ldquo;Hello world!&amp;rdquo; 字符串：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export const resolverMap: IResolvers = {
+  Query: {
+    hello: {
+      resolve: () =&amp;gt; (&amp;quot;Hello world!&amp;quot;),
+    },
+  },
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里用了一个双层的 Map(/Object) 来装载所有 Resolver，实际上第一层用来索引类型，第二层用来索引类型中的字段。&lt;/p&gt;
+
+&lt;p&gt;而上面键 resolve 对应的函数就是 hello 这个字段的 Resolver 函数。依据 Schema 的声明它需要返回了一个字符串。&lt;/p&gt;
+
+&lt;p&gt;我们再来看下如果查询的字段是复杂类型的情况。假设 Schema 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;type Query {
+  me: User
+}
+
+type User {
+  name: String
+  friend: User
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;User 类型里的 friend 字段返回的是一个 User 类型，那么就可能出现下面这样循环嵌套的 GraphQL 语句：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;query {
+  me {
+    name
+    friend {
+      name
+      friend {
+        name
+      }
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那我们怎样为这样的语句进行 Resolve 呢？&lt;/p&gt;
+
+&lt;p&gt;注意前面说到 Resolver 表。我们可以在表里添加 User 类型，然后为 friend 字段单独添加一个 Resolver：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export const resolverMap: IResolvers = {
+  Query: {
+    me: {
+      resolve: () =&amp;gt; ({ name: &amp;quot;Mark&amp;quot; }),
+    },
+  },
+  User: {
+    friend: {
+      resolve: (parent) =&amp;gt;
+        ({ name: (`${parent.name}&#39;s friend`) }),
+    },
+  },
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那么，前面的 GraphQL 语句里的三个 name 会分别返回：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Mark
+Mark&#39;s friend
+Mark&#39;s friend&#39;s friend
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意，这里的 Resolver 函数使用了 parent 参数，它实际上是父字段的返回值。完整的函数签名可以在 &lt;a href=&#34;https://www.apollographql.com/docs/graphql-tools/resolvers#Resolver-function-signature&#34;&gt;官方文档&lt;/a&gt; 这里看到。&lt;/p&gt;
+
+&lt;p&gt;执行整个 GraphQL 语句的逻辑就是：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;访问到 Query 类型里的 me 字段，使用 &lt;code&gt;resolverMap[&amp;quot;Query&amp;quot;][&amp;quot;me&amp;quot;]&lt;/code&gt; 来获得 User 里的字段的值。&lt;/li&gt;
+&lt;li&gt;该次 Resolve 只返回了 name 字段的值，但是 GraphQL 语句中还查询了 friend 字段。&lt;/li&gt;
+&lt;li&gt;friend 是 User 类型里的字段，所以继续使用 &lt;code&gt;resolverMap[&amp;quot;User&amp;quot;][&amp;quot;friend&amp;quot;]&lt;/code&gt; 来获取 friend 字段的返回值。&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;留道思考题：如果在 &lt;code&gt;[&amp;quot;Query&amp;quot;][&amp;quot;me&amp;quot;]&lt;/code&gt; 这个 Resolver 里返回的是 &lt;code&gt;{ name: &amp;quot;Mark&amp;quot;, friend: &amp;quot;Tony&amp;quot; }&lt;/code&gt; 那最终查询结果会是什么呢？&lt;/p&gt;
+
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;Schema：用于声明 GraphQL 语句能够查询什么样的数据。&lt;/p&gt;
+
+&lt;p&gt;GraphQL 语句：用于描述需要查询哪些数据。&lt;/p&gt;
+
+&lt;p&gt;Resolver：用于返回需要的数据。&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>Docker, Serverless, GraphQL</title>
-      <link>http://nekocode.github.io/blog/docker_serverless_graphql/</link>
+      <link>http://nekocode.github.io/posts/docker_serverless_graphql/</link>
       <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://nekocode.github.io/blog/docker_serverless_graphql/</guid>
-      <description>最近被 Backend、DevOps 的一些新概念震撼到了。
-Docker Docker 应该是目前 DevOps 界最火的工具了。
-早在前几年，我就开始使用 Docker 了。通过 Docker 为公司搭建 Maven 和 Jenkins 服务，然后构建用于编译 Android 项目的 Docker Image 提供给 Jenkins 使用。
-对于曾经尝试过 Deployment 地狱的人，Docker 的便捷让我对它的印象十分好。
-而今年，借助 Docker Compose，我更在我的服务器上成功用几句命令就搭建了一系列工具。仅仅是写写 YAML 配置，就可以快速轻松地部署到任意服务器上，这得有多爽。甚至还包括以下一些自动化的事情：
- 通过 jwilder/nginx-proxy 自动为其它 Docker 容器配置 Nginx 代理； 通过 jrcs/letsencrypt-nginx-proxy-companion 自动创建 Let&amp;rsquo;s Encrypt 证书并配置，轻松支持 Https。  如果是在远古时代，对一个非专业 DevOps 工程师而言，即使不考虑系统和软件之间的兼容问题，要手动完成上述的所有部署操作也是十分麻烦的。要是遇到要把所有服务迁移或复制到其他机器上这种事情，估计得抓狂。
-来看看我的 Docker Compose YAML 吧：
-Nginx-Proxy: image: daocloud.io/daocloud/nginx-proxy:latest privileged: false restart: always ports: - 80:80 - 443:443 volumes: - /root/nginx-proxy/certs:/etc/nginx/certs:ro - /root/nginx-proxy/vhost:/etc/nginx/vhost.</description>
+      <guid>http://nekocode.github.io/posts/docker_serverless_graphql/</guid>
+      <description>
+
+&lt;p&gt;最近被 Backend、DevOps 的一些新概念震撼到了。&lt;/p&gt;
+
+&lt;h2 id=&#34;docker&#34;&gt;Docker&lt;/h2&gt;
+
+&lt;p&gt;Docker 应该是目前 DevOps 界最火的工具了。&lt;/p&gt;
+
+&lt;p&gt;早在前几年，我就开始使用 Docker 了。通过 Docker 为公司搭建 Maven 和 Jenkins 服务，然后构建用于编译 Android 项目的 Docker Image 提供给 Jenkins 使用。&lt;/p&gt;
+
+&lt;p&gt;对于曾经尝试过 Deployment 地狱的人，Docker 的便捷让我对它的印象十分好。&lt;/p&gt;
+
+&lt;p&gt;而今年，借助 Docker Compose，我更在我的服务器上成功用几句命令就搭建了一系列工具。仅仅是写写 YAML 配置，就可以快速轻松地部署到任意服务器上，这得有多爽。甚至还包括以下一些自动化的事情：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;通过 &lt;a href=&#34;https://github.com/jwilder/nginx-proxy&#34;&gt;jwilder/nginx-proxy&lt;/a&gt; 自动为其它 Docker 容器配置 Nginx 代理；&lt;/li&gt;
+&lt;li&gt;通过 &lt;a href=&#34;https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion&#34;&gt;jrcs/letsencrypt-nginx-proxy-companion&lt;/a&gt; 自动创建 Let&amp;rsquo;s Encrypt 证书并配置，轻松支持 Https。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果是在远古时代，对一个非专业 DevOps 工程师而言，即使不考虑系统和软件之间的兼容问题，要手动完成上述的所有部署操作也是十分麻烦的。要是遇到要把所有服务迁移或复制到其他机器上这种事情，估计得抓狂。&lt;/p&gt;
+
+&lt;p&gt;来看看我的 Docker Compose YAML 吧：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Nginx-Proxy:
+  image: daocloud.io/daocloud/nginx-proxy:latest
+  privileged: false
+  restart: always
+  ports:
+    - 80:80
+    - 443:443
+  volumes:
+    - /root/nginx-proxy/certs:/etc/nginx/certs:ro
+    - /root/nginx-proxy/vhost:/etc/nginx/vhost.d
+    - /root/nginx-proxy/html:/usr/share/nginx/html
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+  labels:
+    com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: &#39;true&#39;
+LetsEncrypt:
+  image: jrcs/letsencrypt-nginx-proxy-companion
+  restart: always
+  volumes:
+    - /root/nginx-proxy/certs:/etc/nginx/certs:rw
+    - /root/nginx-proxy/vhost:/etc/nginx/vhost.d
+    - /root/nginx-proxy/html:/usr/share/nginx/html
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+Gitlab:
+  image: gitlab/gitlab-ce:11.2.1-ce.0
+  privileged: false
+  restart: always
+  ports:
+    - 80
+    - 443
+    - 22
+  volumes:
+    - /root/gitlab/config:/etc/gitlab
+    - /root/gitlab/logs:/var/log/gitlab
+    - /root/gitlab/data:/var/opt/gitlab
+  environment:
+    VIRTUAL_HOST: git.nekocode.cn
+    LETSENCRYPT_HOST: git.nekocode.cn
+    LETSENCRYPT_EMAIL: nekocode.cn@gmail.com
+    GITLAB_OMNIBUS_CONFIG: |
+      gitlab_rails[&#39;smtp_enable&#39;] = true
+      gitlab_rails[&#39;smtp_address&#39;] = &amp;quot;smtpdm.aliyun.com&amp;quot;
+      gitlab_rails[&#39;smtp_port&#39;] = 465
+      gitlab_rails[&#39;smtp_user_name&#39;] = &amp;quot;git@nekocode.cn&amp;quot;
+      gitlab_rails[&#39;smtp_password&#39;] = &amp;quot;xxxxxx&amp;quot;
+      gitlab_rails[&#39;smtp_domain&#39;] = &amp;quot;smtpdm.aliyun.com&amp;quot;
+      gitlab_rails[&#39;smtp_authentication&#39;] = &amp;quot;login&amp;quot;
+      gitlab_rails[&#39;smtp_enable_starttls_auto&#39;] = true
+      gitlab_rails[&#39;smtp_tls&#39;] = true
+      gitlab_rails[&#39;gitlab_email_enabled&#39;] = true
+      gitlab_rails[&#39;gitlab_email_from&#39;] = &#39;git@nekocode.cn&#39;
+      gitlab_rails[&#39;gitlab_email_display_name&#39;] = &#39;noreply@nekocode.cn&#39;
+Gitlab-Runner:
+  image: gitlab/gitlab-runner:latest
+  container_name: gitlab-runner
+  restart: always
+  volumes:
+    - /root/gitlab-runner/confg:/etc/gitlab-runner
+    - /var/run/docker.sock:/var/run/docker.sock
+Wiki:
+  image: blacklabelops/confluence
+  privileged: false
+  restart: always
+  ports:
+    - 8090
+    - 8091
+  environment:
+    VIRTUAL_HOST: wiki.nekocode.cn
+    VIRTUAL_PORT: 8090
+    CONFLUENCE_PROXY_NAME: wiki.nekocode.cn
+    CONFLUENCE_PROXY_PORT: 443
+    CONFLUENCE_PROXY_SCHEME: https
+    LETSENCRYPT_HOST: wiki.nekocode.cn
+    LETSENCRYPT_EMAIL: nekocode.cn@gmail.com
+PostgresDB:
+  image: blacklabelops/postgres
+  restart: always
+  ports:
+    - 5432:5432
+  environment:
+    POSTGRES_DB: postgresdb
+    POSTGRES_USER: admin
+    POSTGRES_PASSWORD: admin123
+    POSTGRES_ENCODING: UTF8
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;感谢 Docker 和社区的发展，让快速轻松地部署软件成为可能。所以请不要再去手工部署或写兼容性差的 Deploy 脚本了。你需要拥抱 Docker / 容器技术。&lt;/p&gt;
+
+&lt;h2 id=&#34;serverless&#34;&gt;Serverless&lt;/h2&gt;
+
+&lt;p&gt;Docker 的火热更是推动了一些其他技术的发展。&lt;/p&gt;
+
+&lt;p&gt;AWS 在 2014 年底发布了新服务 Lambda，它能借助 Docker 来执行函数，直接把云计算的最小单位缩小到了函数级别！从此，Serverless 的概念开始火热起来。&lt;/p&gt;
+
+&lt;p&gt;前几年刚接触 BaaS 已经让我有些小惊喜了，通过 BaaS，即使是前端开发，也可以低成本地自己去构造一个轻量级的后端服务。而今年刚接触到 Serverless 时更让我震撼，它让开发者能用比更低的成本来开发一个更 Scalable 的后端服务。&lt;/p&gt;
+
+&lt;p&gt;成本低、Scalable、NoOps 是 Lambda 的几个优点。开发者可以花更多精力去关注业务，而不必关心所有硬件、架构、部署相关的细节。你不用再思考使用什么框架、怎么组织代码能让你的服务 Scalability 更强，也不用关心怎么部署 / 负载均衡才能扛住新一轮的流量增长。&lt;/p&gt;
+
+&lt;h2 id=&#34;graphql&#34;&gt;GraphQL&lt;/h2&gt;
+
+&lt;p&gt;GraphQL 是其中一个我认为会对目前 C/S 开发产生革命性作用的技术。&lt;/p&gt;
+
+&lt;p&gt;客户端通过服务端「预设」的 Api 来查询、修改服务端数据。这种设计实在是太死板了，即使遵循 Restful 风格设计，也会遇到很多需要前后端磨合 / 不断沟通的问题。而 Api 版本迭代、前后兼容的问题也会让人抓狂。&lt;/p&gt;
+
+&lt;p&gt;由于接口需要设计和维护，会消耗后端开发的很多时间。而 GraphQL 可以帮你释放这部分时间，你可以不用再面向接口开发了，可以花更多时间在业务模型、数据库设计上，需要查询或修改什么数据让前端自己去描述吧。&lt;/p&gt;
+
+&lt;p&gt;顺便推荐下 &lt;a href=&#34;https://www.prisma.io/&#34;&gt;Prisma&lt;/a&gt; ，它能帮你快速在已有数据库上搭建 GraphQL 服务。目前我在尝试把它同时搭在某个 MySQL 和 MongoDB 上面。&lt;/p&gt;
+
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+
+&lt;p&gt;记录的都是一些零碎、微小的经验。 PS，对于「精益创业」的中小型团队，这些技术好像都蛮适合的，短期来看开发快、成本低，长期来看 Scalable。&lt;/p&gt;
+</description>
     </item>
     
     <item>
       <title>「二零一七年」的总结</title>
-      <link>http://nekocode.github.io/blog/summary_of_2017/</link>
+      <link>http://nekocode.github.io/posts/summary_of_2017/</link>
       <pubDate>Thu, 15 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://nekocode.github.io/blog/summary_of_2017/</guid>
-      <description>为什么二月十五才写去年的总结？一，懒；二，正处农历大年三十，可以诡辩地说二零一七在农历上仍未完结。
-二零一七，于我而言是十分重要的一年。
-一五、一六年我跟着几个刚毕业的朋友一起创业，从获得千万级风投，到最终资金链断裂，总算结束了我个人的所谓「大学生创业」之路。而一七年初，我入职了知乎。这是一家已经连续创业七年多的公司，而我一直是知乎的重度用户。
-把之前创业的经历，和在知乎这一年的经历联系在一起，让我感触十分大。我个人的观点是，「大学生创业」、「九零、零零后创业」等，这些只是资本包装起来的词汇。风口上的标签、媒体口味的变化、可观的投资回报率让很多投资者突然对这块市场虎视眈眈。能够在一个早期创业团队上买入股份，然后对团队进行包装和宣传，就有可能再融个几轮卖出个好价钱了。这种已成套路的投资，让大学生创业市场近几年变得熙熙攘攘。
-但是，缺乏从业经验、市场眼光、风险控制能力、精英化管理能力的大学生团队，不管是在创业的哪一个环节上遭遇到了问题，都可能会是对团队的致命一击。如果我是投资家，我是万万不敢重仓大学生创业团队的，因为在我看来，目前以及未来仍旧是「精英创业」的时代。而那些投资大学生团队的人，他们肯扔钱其实主要出于三个原因：一，容易用很低的价格买入大量的股份，因为大多数大学生团队在面对资本的时候，根本没有任何谈资。二、大学生团队运营成本极低，只要不乱烧钱，想要活久一些太容易了。三，前面就说过了，媒体的口味决定了大学生团队更容易被包装起来，这个其实主要看 CEO，可以参考「余佳文」这类典例（但我个人并不喜欢被这类人 Lead）。
-而一七年，我能明显感觉到媒体的口味开始再度产生变化，之前一向喜欢鼓吹大学生创业的媒体开始倒戈相向，反而频频开始对大学生创业项目发起质疑、反讽。这让我学习到了三件事：一，资本市场都是贪婪、黑暗的。二，媒体的能力变得日益可怕，创造错误的信息差也能挣钱。三，风口是会改变的（或者说具有周期性），虽然跟着泡沫涨能吃上猪肉，但你得预测到它什么时候会爆。
-写到这顺带把一五、一六年的一些看法也总结了。接下来说回二零一七这一年。
-我前面说到了，入职知乎的这一年于我而言十分重要。一来是遇到了很多职场精英，颠覆了我很多过往的看法。他们中有极具有 Geek 精神的工程师、年投资回报过百万的工程师、极具逻辑能力的 Leader。在这个平台上，其实能明显感觉到，相对于很多其他人，自己能力还十分不足，但值得庆幸的是自己的职业生涯还早，并且自己能明显意识到自己的一些问题所在。我本身算是个 Workaholic，希望之后方向正确的话，勤能补拙。
-二来是由于「实际收入 / 工作时间」比的提高，让我有更多精力去学习、探讨一些技术以外的东西，譬如投资。相对于之前泡沫化的收入，其实到手的收入对于一个风险承担能力弱的穷人而言更踏实。创业的话，干个几年活，最终期权变废纸的概率太大了。当然我不是抵抗创业，我骨子里是喜欢创业的，而且我也崇拜硅谷创业精神。但所谓厚积薄发，我认为目前并不是 Allin 创业的时机，因为我根本没有多少资本去支撑高风险的持续创业（这里的资本包括经验、眼界、资金等）。不过我相信，未来我应该会重新投入其中。当然，目前在知乎也是一种创业，但我想做的其它事还多着。
-技术相关的事在这个博客上不想费太多笔墨，简单总结下：大多数达到了我对二零一七的心里预期，稍微提高了自己在社区的影响力（我在 Github 社区的一些成就可以在 这里 查看）。希望二零一八可以持续提高自己的能力和影响力，并且能在一些其它的领域（新技术、Web）获得新的成就。
-接下来我想讲下「投资」。
-很多人喜欢把它称作「理财」，这其实是每个人都会接触到的事情，即使是你把钱全部放在银行里，你也是在做一项投资，只不过你是把钱投给了风险和投资回报率都相对较低的银行（银行也会拿你的钱去投资其它产品、或借贷出去来获得利润）。在二零一七的下半年，我开始大量接触了投资相关的知识，一来是市场突然一片大好，以及投资热潮的突然刮起（这其实是个相当危险的讯号），二来是我创业的时候做的是新三板相关的内容，耳濡目染也开始对金融行业产生兴趣。
-比较狗血的是，我入场的时机几乎是最差的。二零一八初，我投资了些数字货币，没想到不到半个月比特币的价格就腰斩了。而最近美股市场也一片哀嚎，可以看出经济可能要到周期的拐点了，也就是泡沫要爆了。而我恰好在最高点入场了，。。。
-经历被割韭菜的洗礼后，上个月，我在知乎想法上发表了一些 对数字货币的看法，现在可以在这里再补充一些。首先，大部分经济学家都认为数字货币是泡沫，而股神巴菲特也不看好，并坦言很乐意买入五年期的加密货币看空期权。为什么是五年期？因为即使是巴菲特也没法准确预言这个泡沫会什么时候爆，但他觉得五年后必然会爆。
-但是「天下熙熙皆为利来，天天攘攘皆为利往」，由于人性的贪婪，没人知道这个泡沫会怎么发展，虽然近期腰斩之后目前又开始回升了，但是说实话，我不建议再投钱进去。目前的币市由于缺乏公信机关的监管基本已沦为赌场，而目前能支撑起价格的，大部分还是黑市的需求，和一些尚未对社会产生实际价值的概念。
-在这次经历里，我犯的最严重的错误就是简单地认为「看好某样事物」就值得投资，然而这其实只是最基础的一个判断因素。假设市场里有十个人，你是第八个看好某件事物的，那么你可能就已经站在泡沫的顶端了。所以看涨某件事物，首先你得足够早（这其实是个信息差的问题）。其次，你得准确预判它的价值是被低估了，还是已经产生泡沫了。
-但这绝非易事。只能不断学习和尝试。最近春节无聊，刚好也沉迷上了玩德州扑克，这其实可以看作是一个微型的投资训练了，取胜需要你有足够的情绪和风险控制能力。其实，很多时候投资和 投机 / 赌博 是有共通点的，投资也有赚有亏，能稳住牌面最终赢钱离场，那你就是赢家。
-二零一七要记录的也就那么多。希望新的一年能有更多新的进步。</description>
+      <guid>http://nekocode.github.io/posts/summary_of_2017/</guid>
+      <description>&lt;p&gt;为什么二月十五才写去年的总结？一，懒；二，正处农历大年三十，可以诡辩地说二零一七在农历上仍未完结。&lt;/p&gt;
+
+&lt;p&gt;二零一七，于我而言是十分重要的一年。&lt;/p&gt;
+
+&lt;p&gt;一五、一六年我跟着几个刚毕业的朋友一起创业，从获得千万级风投，到最终资金链断裂，总算结束了我个人的所谓「大学生创业」之路。而一七年初，我入职了知乎。这是一家已经连续创业七年多的公司，而我一直是知乎的重度用户。&lt;/p&gt;
+
+&lt;p&gt;把之前创业的经历，和在知乎这一年的经历联系在一起，让我感触十分大。我个人的观点是，「大学生创业」、「九零、零零后创业」等，这些只是资本包装起来的词汇。风口上的标签、媒体口味的变化、可观的投资回报率让很多投资者突然对这块市场虎视眈眈。能够在一个早期创业团队上买入股份，然后对团队进行包装和宣传，就有可能再融个几轮卖出个好价钱了。这种已成套路的投资，让大学生创业市场近几年变得熙熙攘攘。&lt;/p&gt;
+
+&lt;p&gt;但是，缺乏从业经验、市场眼光、风险控制能力、精英化管理能力的大学生团队，不管是在创业的哪一个环节上遭遇到了问题，都可能会是对团队的致命一击。如果我是投资家，我是万万不敢重仓大学生创业团队的，因为在我看来，目前以及未来仍旧是「精英创业」的时代。而那些投资大学生团队的人，他们肯扔钱其实主要出于三个原因：一，容易用很低的价格买入大量的股份，因为大多数大学生团队在面对资本的时候，根本没有任何谈资。二、大学生团队运营成本极低，只要不乱烧钱，想要活久一些太容易了。三，前面就说过了，媒体的口味决定了大学生团队更容易被包装起来，这个其实主要看 CEO，可以参考「余佳文」这类典例（但我个人并不喜欢被这类人 Lead）。&lt;/p&gt;
+
+&lt;p&gt;而一七年，我能明显感觉到媒体的口味开始再度产生变化，之前一向喜欢鼓吹大学生创业的媒体开始倒戈相向，反而频频开始对大学生创业项目发起质疑、反讽。这让我学习到了三件事：一，资本市场都是贪婪、黑暗的。二，媒体的能力变得日益可怕，创造错误的信息差也能挣钱。三，风口是会改变的（或者说具有周期性），虽然跟着泡沫涨能吃上猪肉，但你得预测到它什么时候会爆。&lt;/p&gt;
+
+&lt;p&gt;写到这顺带把一五、一六年的一些看法也总结了。接下来说回二零一七这一年。&lt;/p&gt;
+
+&lt;p&gt;我前面说到了，入职知乎的这一年于我而言十分重要。一来是遇到了很多职场精英，颠覆了我很多过往的看法。他们中有极具有 Geek 精神的工程师、年投资回报过百万的工程师、极具逻辑能力的 Leader。在这个平台上，其实能明显感觉到，相对于很多其他人，自己能力还十分不足，但值得庆幸的是自己的职业生涯还早，并且自己能明显意识到自己的一些问题所在。我本身算是个 Workaholic，希望之后方向正确的话，勤能补拙。&lt;/p&gt;
+
+&lt;p&gt;二来是由于「实际收入 / 工作时间」比的提高，让我有更多精力去学习、探讨一些技术以外的东西，譬如投资。相对于之前泡沫化的收入，其实到手的收入对于一个风险承担能力弱的穷人而言更踏实。创业的话，干个几年活，最终期权变废纸的概率太大了。当然我不是抵抗创业，我骨子里是喜欢创业的，而且我也崇拜硅谷创业精神。但所谓厚积薄发，我认为目前并不是 Allin 创业的时机，因为我根本没有多少资本去支撑高风险的持续创业（这里的资本包括经验、眼界、资金等）。不过我相信，未来我应该会重新投入其中。当然，目前在知乎也是一种创业，但我想做的其它事还多着。&lt;/p&gt;
+
+&lt;p&gt;技术相关的事在这个博客上不想费太多笔墨，简单总结下：大多数达到了我对二零一七的心里预期，稍微提高了自己在社区的影响力（我在 Github 社区的一些成就可以在 &lt;a href=&#34;http://git-awards.com/users/nekocode&#34;&gt;这里&lt;/a&gt; 查看）。希望二零一八可以持续提高自己的能力和影响力，并且能在一些其它的领域（新技术、Web）获得新的成就。&lt;/p&gt;
+
+&lt;p&gt;接下来我想讲下「投资」。&lt;/p&gt;
+
+&lt;p&gt;很多人喜欢把它称作「理财」，这其实是每个人都会接触到的事情，即使是你把钱全部放在银行里，你也是在做一项投资，只不过你是把钱投给了风险和投资回报率都相对较低的银行（银行也会拿你的钱去投资其它产品、或借贷出去来获得利润）。在二零一七的下半年，我开始大量接触了投资相关的知识，一来是市场突然一片大好，以及投资热潮的突然刮起（这其实是个相当危险的讯号），二来是我创业的时候做的是新三板相关的内容，耳濡目染也开始对金融行业产生兴趣。&lt;/p&gt;
+
+&lt;p&gt;比较狗血的是，我入场的时机几乎是最差的。二零一八初，我投资了些数字货币，没想到不到半个月比特币的价格就腰斩了。而最近美股市场也一片哀嚎，可以看出经济可能要到周期的拐点了，也就是泡沫要爆了。而我恰好在最高点入场了，。。。&lt;/p&gt;
+
+&lt;p&gt;经历被割韭菜的洗礼后，上个月，我在知乎想法上发表了一些 &lt;a href=&#34;https://www.zhihu.com/pin/938432484480962560&#34;&gt;对数字货币的看法&lt;/a&gt;，现在可以在这里再补充一些。首先，大部分经济学家都认为数字货币是泡沫，而股神巴菲特也不看好，并坦言很乐意买入五年期的加密货币看空期权。为什么是五年期？因为即使是巴菲特也没法准确预言这个泡沫会什么时候爆，但他觉得五年后必然会爆。&lt;/p&gt;
+
+&lt;p&gt;但是「天下熙熙皆为利来，天天攘攘皆为利往」，由于人性的贪婪，没人知道这个泡沫会怎么发展，虽然近期腰斩之后目前又开始回升了，但是说实话，我不建议再投钱进去。目前的币市由于缺乏公信机关的监管基本已沦为赌场，而目前能支撑起价格的，大部分还是黑市的需求，和一些尚未对社会产生实际价值的概念。&lt;/p&gt;
+
+&lt;p&gt;在这次经历里，我犯的最严重的错误就是简单地认为「看好某样事物」就值得投资，然而这其实只是最基础的一个判断因素。假设市场里有十个人，你是第八个看好某件事物的，那么你可能就已经站在泡沫的顶端了。所以看涨某件事物，首先你得足够早（这其实是个信息差的问题）。其次，你得准确预判它的价值是被低估了，还是已经产生泡沫了。&lt;/p&gt;
+
+&lt;p&gt;但这绝非易事。只能不断学习和尝试。最近春节无聊，刚好也沉迷上了玩德州扑克，这其实可以看作是一个微型的投资训练了，取胜需要你有足够的情绪和风险控制能力。其实，很多时候投资和 投机 / 赌博 是有共通点的，投资也有赚有亏，能稳住牌面最终赢钱离场，那你就是赢家。&lt;/p&gt;
+
+&lt;p&gt;二零一七要记录的也就那么多。希望新的一年能有更多新的进步。&lt;/p&gt;
+</description>
     </item>
     
   </channel>

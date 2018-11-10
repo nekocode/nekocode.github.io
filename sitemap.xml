@@ -3,33 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://nekocode.github.io/blog/graphql_summary_2/</loc>
+    <loc>http://nekocode.github.io/about/</loc>
+    <lastmod>2018-11-11T01:15:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://nekocode.github.io/posts/graphql_summary_2/</loc>
     <lastmod>2018-10-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://nekocode.github.io/blog/graphql_summary/</loc>
+    <loc>http://nekocode.github.io/posts/graphql_summary/</loc>
     <lastmod>2018-10-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://nekocode.github.io/blog/docker_serverless_graphql/</loc>
+    <loc>http://nekocode.github.io/posts/docker_serverless_graphql/</loc>
     <lastmod>2018-09-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://nekocode.github.io/blog/summary_of_2017/</loc>
+    <loc>http://nekocode.github.io/posts/summary_of_2017/</loc>
     <lastmod>2018-02-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://nekocode.github.io/categories/blog/</loc>
-    <lastmod>2018-10-20T00:00:00+00:00</lastmod>
-    <priority>0</priority>
+    <loc>http://nekocode.github.io/archives/</loc>
   </url>
   
   <url>
-    <loc>http://nekocode.github.io/blog/</loc>
+    <loc>http://nekocode.github.io/categories/blog/</loc>
     <lastmod>2018-10-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -41,12 +44,13 @@
   </url>
   
   <url>
-    <loc>http://nekocode.github.io/</loc>
+    <loc>http://nekocode.github.io/tags/markdown/</loc>
     <lastmod>2018-10-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://nekocode.github.io/tags/markdown/</loc>
+    <loc>http://nekocode.github.io/posts/</loc>
     <lastmod>2018-10-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -54,6 +58,12 @@
   <url>
     <loc>http://nekocode.github.io/tags/</loc>
     <lastmod>2018-10-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://nekocode.github.io/</loc>
+    <lastmod>2018-11-11T01:15:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   

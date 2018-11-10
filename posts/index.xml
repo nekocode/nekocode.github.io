@@ -1,31 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>杨凡</title>
-    <link>http://nekocode.github.io/</link>
-    <description>Recent content on 杨凡</description>
+    <title>Posts on 杨凡</title>
+    <link>http://nekocode.github.io/posts/</link>
+    <description>Recent content in Posts on 杨凡</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 11 Nov 2018 01:15:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 20 Oct 2018 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="http://nekocode.github.io/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="http://nekocode.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>About</title>
-      <link>http://nekocode.github.io/about/</link>
-      <pubDate>Sun, 11 Nov 2018 01:15:00 +0800</pubDate>
-      
-      <guid>http://nekocode.github.io/about/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/nekocode&#34;&gt;&lt;img src=&#34;https://avatars0.githubusercontent.com/u/4783781?s=460&amp;v=4&#34; style=&#34;max-width:15%;min-width:40px;float:right;&#34; alt=&#34;Github repo&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;一个致力于使用计算机科学为社会解决难题的男人，喜欢一切美的事物（例如贯彻禅道的 Python 语言），也喜欢一切有创造力的工具和技术。如果猫能成为这个宇宙的通用货币之一，我愿意把我 50% 的财产换成猫。&lt;/p&gt;
-
-&lt;p&gt;在看我的博客之前，本着严肃的态度在此声明，本人不保证所有发表言论的正确性，如有错误的地方，欢迎到 &lt;a href=&#34;https://github.com/nekocode/nekocode.cn/issues&#34;&gt;{这里}&lt;/a&gt; 提交你的看法。本博客所有文章欢迎转载，但请遵守 &lt;a href=&#34;https://creativecommons.org/licenses/by-nc-sa/3.0/&#34;&gt;{CC 协议}&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;你可以从这些链接了解我：&lt;a href=&#34;https://github.com/nekocode&#34;&gt;我的 Github&lt;i class=&#34;icon-github-circled&#34;&gt;&lt;/i&gt;&lt;/a&gt;, &lt;a href=&#34;https://nekocode.cn/project-gallery/&#34;&gt;我的项目画廊&lt;/a&gt;, &lt;a href=&#34;https://nekocode.cn/resume.pdf&#34;&gt;我的简历&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
     
     <item>
       <title>GraphQL 纪要（二）</title>
@@ -551,15 +535,6 @@ PostgresDB:
 
 &lt;p&gt;二零一七要记录的也就那么多。希望新的一年能有更多新的进步。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Archives</title>
-      <link>http://nekocode.github.io/archives/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://nekocode.github.io/archives/</guid>
-      <description></description>
     </item>
     
   </channel>
