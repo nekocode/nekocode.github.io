@@ -30,6 +30,13 @@ header {
 	border-bottom: .07em solid #eee;
 }
 
+#scroll-to-top {
+	position: fixed;
+    margin-right: 0rem;
+	margin-left: 15px;
+    padding: 4px;
+}
+
 @media all {
 	html {
 		font-size: 16px;
@@ -38,6 +45,10 @@ header {
 		font-size: 100%;
 		margin-left: 7.5rem;
 		margin-right: 7.5rem;
+	}
+	#scroll-to-top {
+		right: 4rem;
+		bottom: 2rem;
 	}
 }
 
@@ -49,6 +60,10 @@ header {
 		margin-left: 5.5rem;
 		margin-right: 5.5rem;
 	}
+	#scroll-to-top {
+		right: 2rem;
+		bottom: 1rem;
+	}
 }
 
 @media all and (max-width:760px) {
@@ -56,11 +71,19 @@ header {
 		margin-left: 2.5rem;
 		margin-right: 2.5rem;
 	}
+	#scroll-to-top {
+		right: 1.5rem;
+		bottom: 0.8rem;
+	}
 }
 
 @media all and (max-width:580px) {
 	body>* {
 		margin: .7rem 1.5rem 0 1.5rem;
+	}
+	#scroll-to-top {
+		right: 0.5rem;
+		bottom: 0.8rem;
 	}
 }
 
@@ -165,7 +188,7 @@ img {
 }
 
 a {
-	color: #CC6600;
+	color: #ef5285;
 	text-decoration: none;
 }
 
@@ -184,14 +207,10 @@ pre {
 }
 
 code {
-	padding: .25em .25em;
-	background: #f8f8f8;
-	font-size: 90%;
-	margin-bottom: 20px;
+	font-size: 80%;
 }
 
 pre {
-	font-size: .9rem;
 	background: #f8f8f8;
 	border: 1px solid #ddd;
 	padding: 1em;
@@ -238,6 +257,7 @@ blockquote p {
 
 .post-title {
 	color: #000;
+	font-weight: bold;
 }
 
 .post-nav {
@@ -245,12 +265,4 @@ blockquote p {
     justify-content: space-between;
     margin-block-start: 2em;
     margin-block-end: 2em;
-}
-
-#scroll-to-top {
-	position: fixed;
-    right: 2rem;
-    bottom: 2rem;
-    margin-right: 2rem;
-    margin-left: 15px;
 }
