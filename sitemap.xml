@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://nekocode.cn/posts/abused_gui_design_pattern/</loc>
+    <lastmod>2018-12-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://nekocode.cn/about/</loc>
     <lastmod>2018-11-11T01:15:00+08:00</lastmod>
   </url>
@@ -33,37 +38,37 @@
   
   <url>
     <loc>https://nekocode.cn/categories/blog/</loc>
-    <lastmod>2018-10-20T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://nekocode.cn/categories/</loc>
-    <lastmod>2018-10-20T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://nekocode.cn/tags/markdown/</loc>
-    <lastmod>2018-10-20T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://nekocode.cn/posts/</loc>
-    <lastmod>2018-10-20T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://nekocode.cn/tags/</loc>
-    <lastmod>2018-10-20T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://nekocode.cn/</loc>
-    <lastmod>2018-11-11T01:15:00+08:00</lastmod>
+    <lastmod>2018-12-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
