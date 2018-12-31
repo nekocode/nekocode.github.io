@@ -180,7 +180,7 @@ tbody tr:nth-child(odd) th {
 
 img {
 	display: block;
-	border-radius: 5px;
+	border: 1px solid #ddd;
 	max-width: 100%;
 }
 
