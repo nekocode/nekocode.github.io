@@ -100,7 +100,7 @@ if (!doNotTrack) {
 
 <p><img src="/imgs/3.png" alt="" /></p>
 
-<p>于是我参考了 Gradle 的设计，为这些代码提供了一个载体「Task」，并为载体间提供 <code>dependsOn()</code>、<code>finalizedBy()</code>、<code>beDependedOn()</code>、<code>beFinalizedBy()</code> 等方法来描述依赖关系。</p>
+<p>于是我参考了 Gradle 的设计，为这些代码提供了一个载体「Task」，并为载体间提供 <code>dependsOn()</code>、<code>finalizedBy()</code> 等方法来描述依赖关系。</p>
 
 <p>于是，这些启动 Task 最终可以梳理成一棵棵的依赖树：</p>
 

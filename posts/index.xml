@@ -55,7 +55,7 @@
 
 &lt;p&gt;&lt;img src=&#34;https://nekocode.cn/imgs/3.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;于是我参考了 Gradle 的设计，为这些代码提供了一个载体「Task」，并为载体间提供 &lt;code&gt;dependsOn()&lt;/code&gt;、&lt;code&gt;finalizedBy()&lt;/code&gt;、&lt;code&gt;beDependedOn()&lt;/code&gt;、&lt;code&gt;beFinalizedBy()&lt;/code&gt; 等方法来描述依赖关系。&lt;/p&gt;
+&lt;p&gt;于是我参考了 Gradle 的设计，为这些代码提供了一个载体「Task」，并为载体间提供 &lt;code&gt;dependsOn()&lt;/code&gt;、&lt;code&gt;finalizedBy()&lt;/code&gt; 等方法来描述依赖关系。&lt;/p&gt;
 
 &lt;p&gt;于是，这些启动 Task 最终可以梳理成一棵棵的依赖树：&lt;/p&gt;
 
