@@ -2,6 +2,7 @@
 ---
 @import url('https://unpkg.com/primer/build/build.css');
 @import url('https://fonts.googleapis.com/css?family=Rubik:400,500,700,900');
+@import url(tango.css);
 
 body {
   font-family: 'Rubik', sans-serif;
@@ -21,4 +22,22 @@ body {
 
 .bottom {
   bottom: 10px;
+}
+
+code,
+pre {
+	font-family: Menlo, Monaco, 'Courier New', monospace;
+}
+
+code {
+	font-size: 80%;
+}
+
+pre {
+	background: #f8f8f8;
+	border: 1px solid #ddd;
+	padding: 1em;
+	margin-bottom: 20px;
+	overflow-x: auto;
+	vertical-align: text-bottom;
 }
