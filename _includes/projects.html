@@ -1,9 +1,28 @@
+{%- if site.repositories.sort_by_stars -%}
+  {%- assign public_repositories = site.github.public_repositories | where:'fork', false | sort: 'stargazers_count' | reverse -%}
+{%- else -%}
+  {%- assign public_repositories = site.github.public_repositories -%}
+{%- endif -%}
+{%- assign pinned_size = site.repositories.pinned | size -%}
+
 <h2>My Projects</h2>
 <p class="f4 mb-4 text-gray">GitHub repositories that I've built.</p>
 <div class="d-sm-flex flex-wrap gutter-condensed mb-4">
-  {%- for repository in site.github.public_repositories limit: 9 -%}
-    <div class="col-sm-6 col-md-12 col-lg-6 col-xl-4 mb-3">
-      {% include repo-card.html %}
-    </div>
+  {%- for repository in public_repositories limit: site.repositories.limit -%}
+    {%- if pinned_size == 0 -%}
+
+  <div class="col-sm-6 col-md-12 col-lg-6 col-xl-4 mb-3">
+      {%- include repo-card.html -%}
+  </div>
+
+    {%- else -%}
+
+      {%- if site.repositories.pinned contains repository.name -%}
+  <div class="col-sm-6 col-md-12 col-lg-6 col-xl-4 mb-3">
+        {%- include repo-card.html -%}
+  </div>
+      {%- endif -%}
+
+    {%- endif -%}
   {%- endfor -%}
 </div>
