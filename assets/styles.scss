@@ -51,3 +51,13 @@ pre code {
 	padding: 0;
 	font-size: 80%;
 }
+
+.repo-language-color {
+	filter: brightness(125%) !important;
+	border-radius: 50%;
+	display: inline-block;
+	height: 12px;
+	position: relative;
+	top: 2px;
+	width: 12px;
+}
