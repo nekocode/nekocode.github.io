@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>nekocode</title>
+	<link rel="icon" href="favicon.ico">
+
+	<style type="text/css">
+		/* Google Fonts */
+		@import url(https://fonts.googleapis.com/css?family=VT323);
+
+		html,
+		body {
+			background: #222;
+			font-family: "VT323", monospace;
+		}
+
+		body::before {
+			content: " ";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+			z-index: 2;
+			background-size: 100% 2px, 3px 100%;
+			animation: flicker 0.15s infinite;
+		}
+
+		.wrapper {
+			position: absolute;
+			width: 8em;
+			height: 8px;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			top: 0;
+			margin: auto;
+			color: green;
+		}
+
+		.loader {
+			font-size: 1.8em;
+			position: relative;
+			text-shadow: 0px 0px 10px green;
+		}
+
+		.fchar {
+			float: left;
+			margin-right: 5px;
+		}
+
+		.text {
+			display: inline-block;
+			overflow: hidden;
+			width: 0;
+			animation: type 4s 1s steps(8, end) infinite;
+		}
+
+		.cursor {
+			font-weight: bold;
+			animation: blink 1s 0.1s infinite;
+		}
+
+		@keyframes blink {
+			0% {
+				opacity: 0;
+			}
+
+			30% {
+				opacity: 1;
+			}
+
+			60% {
+				opacity: 1;
+			}
+
+			100% {
+				opacity: 0;
+			}
+		}
+
+		@keyframes type {
+			0% {
+				width: 0;
+			}
+
+			30% {
+				width: 3.2em;
+			}
+
+			60% {
+				width: 3.2em;
+			}
+
+			70% {
+				width: 0;
+			}
+		}
+
+		@keyframes flicker {
+			0% {
+				opacity: 0.27861;
+			}
+
+			5% {
+				opacity: 0.34769;
+			}
+
+			10% {
+				opacity: 0.23604;
+			}
+
+			15% {
+				opacity: 0.90626;
+			}
+
+			20% {
+				opacity: 0.18128;
+			}
+
+			25% {
+				opacity: 0.83891;
+			}
+
+			30% {
+				opacity: 0.65583;
+			}
+
+			35% {
+				opacity: 0.67807;
+			}
+
+			40% {
+				opacity: 0.26559;
+			}
+
+			45% {
+				opacity: 0.84693;
+			}
+
+			50% {
+				opacity: 0.96019;
+			}
+
+			55% {
+				opacity: 0.08594;
+			}
+
+			60% {
+				opacity: 0.20313;
+			}
+
+			65% {
+				opacity: 0.71988;
+			}
+
+			70% {
+				opacity: 0.53455;
+			}
+
+			75% {
+				opacity: 0.37288;
+			}
+
+			80% {
+				opacity: 0.71428;
+			}
+
+			85% {
+				opacity: 0.70419;
+			}
+
+			90% {
+				opacity: 0.7003;
+			}
+
+			95% {
+				opacity: 0.36108;
+			}
+
+			100% {
+				opacity: 0.24387;
+			}
+		}
+	</style>
+</head>
+
+
+<body>
+	<div class="wrapper">
+		<div class="loader"><span class="fchar">></span><span class="text">nekocode</span><span class="cursor">_</span>
+		</div>
+	</div>
+</body>
+
+</html>
